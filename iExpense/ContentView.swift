@@ -44,26 +44,62 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
+                Section(header: Text("Business Expenses")) {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Business" {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                }
+                                Spacer()
+                                if item.amount < 10 {
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundStyle(.green)
+                                } else if item.amount < 100 {
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundStyle(.orange)
+                                } else {
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundStyle(.red)
+                                }
+                            }
                         }
-                        Spacer()
-                        Text(item.amount, format: .currency(code: "USD"))
                     }
+                    .onDelete(perform: removeItems)
                 }
-                .onDelete(perform: removeItems)
+                
+                Section(header: Text("Personal Expenses")) {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Personal" {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(item.name)
+                                        .font(.headline)
+                                    Text(item.type)
+                                }
+                                Spacer()
+                                if item.amount < 10 {
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundStyle(.green)
+                                } else if item.amount < 100 {
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundStyle(.orange)
+                                } else {
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundStyle(.red)
+                                }
+                            }
+                        }
+                    }
+                    .onDelete(perform: removeItems)
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
                 Button("Add Expense", systemImage: "plus") {
                     showingAddExpense = true
-//                    // add test expense
-//                    let expense = ExpenseItem(name: "Test", type: "Personal", amount: 5)
-//                    expenses.items.append(expense)
                 }
             }
             .sheet(isPresented: $showingAddExpense) {
