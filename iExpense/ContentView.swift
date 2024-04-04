@@ -103,16 +103,6 @@ struct ContentView: View {
                 } label: {
                     Label("Add Expense", systemImage: "plus")
                 }
-//                NavigationLink(destination: AddView(expenses: expenses)) {
-//                    Image(systemName: "plus")
-//                }
-                
-//                Button("Add Expense", systemImage: "plus") {
-//                    showingAddExpense = true
-//                }
-//            }
-//            .sheet(isPresented: $showingAddExpense) {
-//                AddView(expenses: expenses)
             }
         }
     }
